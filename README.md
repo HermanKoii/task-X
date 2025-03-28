@@ -1,69 +1,130 @@
-# Twitter Searcher
+# Twitter Searcher CLI
 
-**Not for illegal use**
+## Project Overview
 
-This tool is designed exclusively for theoretical use in public archival projects and is not intended to be used for for-profit activities.
+The Twitter Searcher is a powerful Command-Line Interface (CLI) tool designed for advanced social media research and data gathering using web automation. It enables users to perform targeted searches on Twitter/X and extract information through a systematic, configurable approach.
 
-Examples of fair use:
- - tracking your own social media presence
- - archiving or backing up sensitive content to protect against persecution
+### Key Features
+- Automated Twitter/X search with advanced query configurations
+- Headless browser-based data extraction
+- Configurable search depth and limits
+- Integration with Koii Network's decentralized task framework
+- Supports archival and research use cases
 
-Examples of bad use:
- - stealing data (i.e. selling large scale analytics)
- - infringing on personal privacy (i.e. "stalking")
+### Use Cases
+- Academic and research social media analysis
+- Content archival and backup
+- Social media trend tracking
+- Community coordination and information gathering
 
-Please consult with a legal professional before engaging in any form of web-searching or data-gathering activities.
+⚠️ **Ethical Usage Notice**: This tool is intended for legitimate research and archival purposes. Ensure compliance with Twitter's Terms of Service and respect user privacy.
 
-## Koii Tasks
+## Installation
 
-Koii tasks are community based activities where participants run common code on their local machines. This repo provides an example of how to use headless browsers and DOM manipulation to automate user actions, using tasks, to provide new possibilities for community coordination.
+### Prerequisites
+- Node.js (v16+ recommended)
+- Yarn or npm
+- Git
 
-In the Koii architecture, community nodes run tasks and generate 'submissions' which they submit to claim rewards. When a submission is posted to the network, other nodes verify, or 'audit' that submission, and then choose whether to approve rewards. See `twitter-task.js` for the task implementation. 
+### Install from GitHub
+```bash
+# Clone the repository
+git clone https://github.com/your-org/twitter-searcher.git
 
-## What's in the Project?
-This is an implementation of the default data-gatherer class of Koii tasks.
+# Navigate to the project directory
+cd twitter-searcher
 
-There are four main components, detailed in the adapter file: `adapters/twitter/twitter.js`
-1. Negotiate Session
-2. Fetch a list
-3. search for an item
-4. Store the item
-
-The repo also contains a host of test files, most importantly `test/test-one-round.js` which details the full flow of one [gradual consensus](https://docs.koii.network/concepts/gradual-consensus/runtime-flow) round. 
-
-Run the test with 
+# Install dependencies
+yarn install
+# or
+npm install
 ```
-yarn install or npm install
-yarn test or npm run test
+
+## Usage
+
+### Basic Search
+```bash
+# Perform a basic Twitter search
+yarn start
 ```
 
-## Using The Searcher
-To modify the searcher query, or change how it uses the local database, open `twitter-task.js`.
-
-The `query` object manages the key parts of the searcher.
+### Configurable Search
+Edit the `twitter-task.js` to customize your search:
 
 ```javascript
-let searchTerm = "#koii";
 let query = {
-    limit: 100, // total number of records to return
-    searchTerm: searchTerm, // the keyword to look for
-    query: `https://x.com/search?q=${ searchTerm }&src=typed_query`, // the query string (including said keyword)
-    depth: 3, // the depth of recursive layers to follow 
-    recursive: true, // descend recursively?
-    updateRound: () => {} // a function that returns the current round
-    round: 1 // the current round
+    limit: 100,           // Maximum number of records
+    searchTerm: "#koii",  // Keyword or hashtag
+    query: "https://x.com/search?q=#koii&src=typed_query",
+    depth: 3,             // Search recursion depth
+    recursive: true       // Enable recursive searching
 }
 ```
 
-## Modifying the Task
-Check `task-config.yaml` for the deployment config. 
+### Running Tests
+```bash
+# Run a single round test
+yarn test
 
-## Deploying to Koii
-Use the `create-task-cli` to build and deploy your task. 
-
-```
-yarn webpack #builds your task executable
-npx @_koii/create-task-cli@latest #uploads your task executable to IPFS and starts it on Koii
+# Full test suite
+yarn test:full
 ```
 
-For a longer demo and more information please see https://blog.koii.network/How-to-deploy-a-koii-task-in-less-than-5mins/
+## Command Reference
+
+| Command | Description | Options |
+|---------|-------------|---------|
+| `yarn start` | Run default Twitter search | - |
+| `yarn test` | Run single round test | - |
+| `yarn webpack` | Build task executable | - |
+| `yarn deploy` | Deploy to Koii Network | Requires Koii CLI |
+
+## Configuration
+
+### Environment Variables
+Create a `.env` file with the following optional configurations:
+
+```ini
+TWITTER_API_KEY=your_api_key
+SEARCH_DEPTH=3
+MAX_RECORDS=100
+```
+
+## Project Structure
+- `index.js`: Main entry point
+- `twitter-task.js`: Core search logic
+- `adapters/twitter/twitter.js`: Twitter interaction adapter
+- `tests/`: Comprehensive test suite
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+### Running Tests
+```bash
+yarn test
+yarn test:full
+```
+
+## Deployment
+
+Deploy to Koii Network using the official CLI:
+```bash
+yarn webpack
+npx @_koii/create-task-cli@latest
+```
+
+## License
+This project is licensed under the ISC License.
+
+## Additional Resources
+- [Koii Network Documentation](https://docs.koii.network)
+- [Twitter API Guidelines](https://developer.twitter.com/en/docs)
+
+---
+
+**Disclaimer**: Ensure ethical and legal compliance when using this tool. Always respect platform terms of service and user privacy.
